@@ -130,7 +130,7 @@
 <body>
     <header>
         <label for="titulo">Título:</label>
-        <input type="text" id="titulo">
+        <input type="text" id="titulo" v-model="campoBusca" @keyup.enter="buscarPelis()">
         <button id="busca" @click="buscarPelis()"> Buscar</button>
     </header>
 
