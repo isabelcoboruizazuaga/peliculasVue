@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<style>
+    body {
+        /*Imagen de fondo*/
+        background-image: url("background.jpg");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
+        color: white;
+    }
+
+    header {
+        width: 100%;
+        height: 5rem;
+
+        background-color: rgba(22, 21, 28, 0.786);
+        font-size: 180%;
+
+        display: flex;
+        align-items: center;
+    }
+
+    #titulo {
+        height: 2rem;
+        width: 20rem;
+        margin: 1rem;
+
+        background: rgba(82, 77, 108, 0.624);
+        border: 2px solid rgba(42, 41, 41, 0.589);
+        border-radius: 4px;
+
+        text-align: center;
+
+        color: white;
+    }
+
+    #busca {
+        background-color: rgba(46, 33, 119, 0.999);
+        color: white;
+        border: none;
+        border-radius: 8px;
+
+        font-size: 1.5rem;
+
+    }
+
+    #peliculas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-content: space-between;
+    }
+
+    #peliculas .pelicula {
+        width: 22rem;
+        height: 34rem;
+
+        border-radius: 25px;
+        background-color: rgba(42, 55, 114, 0.7);
+
+        margin: 2rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #info {
+        position: fixed;
+        top: 10vh;
+        left: 2vw;
+
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-content: center;
+
+        margin-top: 3rem;
+    }
+
+
+    #info .peli_info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        padding: 1rem;
+
+        background-color: rgba(42, 55, 114, 0.95);
+    }
+
+    #info p {
+        width: 40rem;
+    }
+
+
+    img {
+        border-radius: 25px;
+        height: 30rem;
+        width: 20rem;
+    }
+
+    label {
+        margin-left: 1rem;
+    }
+
+    #close {
+        font-size: 200%;
+        border-color: rgba(94, 68, 107, 0.95);
+        color: rgb(255, 0, 0);
+        background-color: rgba(90, 42, 114, 0.95);
+    }
+</style>
+
+<body @scroll="scroll()">
+    <header>
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" v-model="campoBusca" @keyup.enter="buscarPelis()">
+        <button id="busca" @click="buscarPelis()"> Buscar</button>
+    </header>
+
+   <section id="info" v-if="hayInfoPeli">
+        <button id="close" @click="cerrarInfo()">X</button>
+        <div class="peli_info" id="tt0076759">
+            <h2>{{infoPeli.Title}}</h2>
+            <div class="informacion">
+                <h4>{{infoPeli.Year}}</h4>
+                <h4>{{infoPeli.Runtime}}</h4>
+                <h4>{{infoPeli.Director}}</h4>
+                <h4>{{infoPeli.Genre}}</h4>
+                <h4>{{infoPeli.Language}}</h4>
+            </div>
+            <div class="resumen">
+                <h4>{{infoPeli.Actors}}</h4>
+                <p>{{infoPeli.Plot}} </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="peliculas">
+        <div class="pelicula" id="tt0076dasd759" v-for="peli in listaPelis"  @click="cogerInfo(peli)">
+            <img v-bind:src="peli.Poster">
+            <p>{{peli.Title}}</p>
+        </div>
+        </div>
+    </section>
+</body>
+<script src='main.js'></script>
+
+</html>
