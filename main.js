@@ -35,7 +35,9 @@ createApp({
             texto: "",
             hayInfoPeli: false,
             infoPeli: "",
-            campoBusca:"",
+            campoBusca: "",
+            cargado: true,
+            pagina:1,
             listaPelis: [],
         }
     },
@@ -43,38 +45,51 @@ createApp({
         muestraTareasTotales() {
             return this.notas.length
         },
-        buscarPelis(){
-            let pagina=1;
-            
-            axios.get("http://www.omdbapi.com/?s=" + this.campoBusca + "&apikey=350e7505&page=" + pagina)
-                .then((response)=> {
-                    this.listaPelis=response.data.Search;
-                })
-                .catch((error) =>{
-                })
-                .then(() =>{
-                });
+        buscarPelis() {
+            if (this.cargado) {
+                this.cargado = false;
+
+                axios.get("http://www.omdbapi.com/?s=" + this.campoBusca + "&apikey=350e7505&page=" + this.pagina)
+                    .then((response) => {
+                        this.listaPelis = this.listaPelis.concat(response.data.Search);
+                        this.pagina++;
+                        this.cargado = true;
+                    })
+                    .catch((error) => {
+                    })
+                    .then(() => {
+                    });
+            }
         },
         cogerInfo(peli) {
             axios.get("http://www.omdbapi.com/?i=" + peli.imdbID + "&apikey=350e7505")
-                .then((response)=> {
+                .then((response) => {
                     this.mostrarInfo(response.data);
                 })
-                .catch((error) =>{
+                .catch((error) => {
                 })
-                .then(() =>{
+                .then(() => {
                 });
         },
-        mostrarInfo(peli){ 
-            console.log("peli");           
-            this.hayInfoPeli = true;            
+        mostrarInfo(peli) {
+            console.log("peli");
+            this.hayInfoPeli = true;
             this.infoPeli = peli;
 
         },
         cerrarInfo() {
             this.hayInfoPeli = false;
+        },
+        scroll() {
         }
     },
-    computed: {
+    created() {
+        window.addEventListener('scroll', () => {
+            if (
+                window.scrollY - 400 + window.innerHeight >= document.body.offsetHeight - 1000
+            ) {
+                this.buscarPelis();
+            }
+        });
     }
 }).mount('body')

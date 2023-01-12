@@ -127,7 +127,7 @@
     }
 </style>
 
-<body>
+<body @scroll="scroll()">
     <header>
         <label for="titulo">Título:</label>
         <input type="text" id="titulo" v-model="campoBusca" @keyup.enter="buscarPelis()">
