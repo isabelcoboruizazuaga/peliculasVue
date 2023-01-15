@@ -49,7 +49,7 @@ createApp({
             if (this.cargado) {
                 this.cargado = false;
 
-                axios.get("http://www.omdbapi.com/?s=" + this.campoBusca + "&apikey=350e7505&page=" + this.pagina)
+                axios.get("https://www.omdbapi.com/?s=" + this.campoBusca + "&apikey=350e7505&page=" + this.pagina)
                     .then((response) => {
                         this.listaPelis = this.listaPelis.concat(response.data.Search);
                         this.pagina++;
@@ -62,7 +62,7 @@ createApp({
             }
         },
         cogerInfo(peli) {
-            axios.get("http://www.omdbapi.com/?i=" + peli.imdbID + "&apikey=350e7505")
+            axios.get("https://www.omdbapi.com/?i=" + peli.imdbID + "&apikey=350e7505")
                 .then((response) => {
                     this.mostrarInfo(response.data);
                 })
